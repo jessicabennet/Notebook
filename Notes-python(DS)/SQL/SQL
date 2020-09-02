@@ -1,0 +1,92 @@
+SELECT column1, column2, column3 FROM table_name;
+SELECT DISTINCT * FROM table_name; -- [all columns]
+
+SELECT COUNT(*) FROM table_name; -- [Counts row number]
+SELECT COUNT(DISTINCT column1) FROM talbe_name;
+
+/*
+In SQL, the WHERE keyword allows you to filter based on both text and numeric values in a table. There are a few different comparison operators you can use:
+
+= equal
+<> not equal
+< less than
+> greater than
+<= less than or equal to
+>= greater than or equal to
+*/
+
+SELECT COUNT(*) FROM table_name WHERE condition1 AND condition2; 
+/* 
+1、COUNT(*)
+
+对表中行数进行计数
+不管是否有NULL
+ 
+2、COUNT(字段名)
+
+对特定列有数据的行进行计数忽略NULL值
+*/
+SELECT * FROM table_name WHERE condition BETWEEN range1 AND range2;
+-- [BETWEEN is inclusive, meaning the beginning and end values are included in the results!]
+SELECT * FROM table_name WHERE condition IN ('arg1', 'arg2');
+SELECT * FROM table_name WHERE condition IS NOT NULL;
+
+/*
+The % wildcard will match zero, one, or many characters in text. For example, the following query matches companies like 'Data%', 'DataC' 'DataCamp', 'DataMind'
+The _ wildcard will match a single character. 'Data_cmp'
+*/
+SELECT * FROM table_name WHERE condition LIKE 'Data%'/*  '_ata%' or 'da_ta'; */
+
+SELECT AVG(duration) FROM films;
+SELECT MIN(duration) FROM films; 
+/*
+AVG(),MAX(),SUM(),MIN()
+*/
+/*
+SQL allows you to do something called aliasing. Aliasing simply means you assign a temporary name to something. To alias, you use the AS keyword, which you've already seen earlier in this course.
+
+For example, in the above example we could use aliases to make the result clearer:
+*/
+SELECT MAX(budget) AS max_budget,
+       MAX(duration) AS max_duration
+FROM films;
+/* Aliases are helpful for making results more readable! */
+SELECT title, gross - budget AS net_profit
+FROM films;
+
+SELECT title
+FROM films
+ORDER BY release_year DESC;
+
+SELECT birthdate, name
+FROM people
+ORDER BY birthdate, name;
+/*
+sorts on birth dates first (oldest to newest) and then sorts on the names in alphabetical order. The order of columns is important!
+
+Make sure to always put the ORDER BY clause at the end of your query. You can't sort values that you haven't calculated yet!
+
+ if you want to filter based on the result of an aggregate function, you need another way! That's where the HAVING clause comes in. For example,
+*/
+SELECT release_year
+FROM films
+GROUP BY release_year
+HAVING COUNT(title) > 10;
+/*
+shows only those years in which more than 10 films were released.
+group by默认返回每一组的第一条数据（每一组的数据排序都是按默认顺序排序的）
+方法一：子查询 https://blog.csdn.net/HD243608836/article/details/88832509
+
+方法二：
+根据，上面提到的：“group by分组后，则返回的是第一条记录的基本信息的特性”
+所以，先子查询order by，再外层用group by，就可以取得最高票价（最大值）对应的信息了
+
+MAX（）函数的一些用法注意事项
+https://blog.csdn.net/moakun/article/details/82085943
+
+*/
+
+
+
+
+
